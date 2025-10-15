@@ -98,10 +98,10 @@
             //                    | GUI |     | SPC |   | ENT |     | ALT |
 
             bindings = <
-&trans  &trans  &trans  &trans     &trans      &kp PLUS     &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PLUS       &trans  &trans
-&trans  &trans  &trans  &kp COMMA  &kp PERIOD  &kp GRAVE    &kp MINUS  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp BACKSLASH  &trans  &trans
-&trans  &trans  &trans  &trans     &trans      &trans       &kp UNDER  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp PIPE       &trans  &trans
-                        &trans     &trans      &trans       &trans     &trans                &trans
+&ss_select   &trans  &trans  &trans     &trans      &kp PLUS     &kp EQUAL  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp PLUS       &trans  &trans
+&ss_toolbar  &trans  &trans  &kp COMMA  &kp PERIOD  &kp GRAVE    &kp MINUS  &kp LEFT_BRACE        &kp RIGHT_BRACE        &kp BACKSLASH  &trans  &trans
+&trans       &trans  &trans  &trans     &trans      &trans       &kp UNDER  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp PIPE       &trans  &trans
+                             &trans     &trans      &trans       &trans     &trans                &trans
             >;
         };
     };
