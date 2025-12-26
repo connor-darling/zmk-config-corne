@@ -83,7 +83,7 @@
             bindings = <
 &trans  &kp NUMBER_1  &kp NUMBER_2   &kp NUMBER_3  &kp NUMBER_4     &kp NUMBER_5    &kp NUMBER_6  &kp NUMBER_7    &kp NUMBER_8        &kp NUMBER_9     &kp N0  &trans
 &trans  &trans        &kp C_BRI_UP   &kp C_PP      &kp C_VOLUME_UP  &kp LEFT_GUI    &kp LEFT      &kp DOWN_ARROW  &kp UP_ARROW        &kp RIGHT_ARROW  &trans  &trans
-&trans  &trans        &kp C_BRI_DEC  &kp K_MUTE    &kp C_VOL_DN     &kp LEFT_ALT    &trans        &kp C_RW        &kp C_FAST_FORWARD  &trans           &trans  &bt BT_CLR_ALL
+&trans  &trans        &kp C_BRI_DEC  &kp K_MUTE    &kp C_VOL_DN     &kp LEFT_ALT    &kp F13       &kp C_RW        &kp C_FAST_FORWARD  &trans           &trans  &bt BT_CLR_ALL
                                      &trans        &trans           &trans          &trans        &trans          &kp RALT
             >;
         };
