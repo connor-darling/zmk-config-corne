@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Convert an image to an LVGL-compatible C array for monochrome displays."""
+"""Convert an image to an LVGL-compatible C array for nice!view (monochrome, portrait-mounted).
+
+The image is rotated 90° CW so it displays correctly on the vertically-mounted
+nice!view display (which is physically 160x68 landscape).
+"""
 
 import sys
 from pathlib import Path
@@ -13,8 +17,12 @@ except ImportError:
 
 def convert(input_path: str, output_path: str, threshold: int = 128):
     img = Image.open(input_path).convert("L")  # Convert to grayscale
+    print(f"Original image size: {img.size[0]}x{img.size[1]}")
+
+    # Rotate 90° CW for landscape display (portrait → landscape)
+    img = img.transpose(Image.Transpose.ROTATE_270)
     width, height = img.size
-    print(f"Image size: {width}x{height}")
+    print(f"After rotation (90° CW): {width}x{height}")
 
     pixels = img.load()
 
@@ -22,11 +30,9 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
     row_bytes = (width + 7) // 8
 
     # Build palette: 2 entries, each is lv_color32_t (B, G, R, A) = 4 bytes
-    # Palette[0] = white (for bit 0)
-    # Palette[1] = black (for bit 1)
     palette = [
-        0xFF, 0xFF, 0xFF, 0xFF,  # Index 0 = white (B=0xFF, G=0xFF, R=0xFF, A=0xFF)
-        0x00, 0x00, 0x00, 0xFF,  # Index 1 = black (B=0x00, G=0x00, R=0x00, A=0xFF)
+        0xFF, 0xFF, 0xFF, 0xFF,  # Index 0 = white
+        0x00, 0x00, 0x00, 0xFF,  # Index 1 = black
     ]
 
     pixel_data = []
@@ -36,14 +42,12 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
             for bit in range(8):
                 x = bx * 8 + bit
                 if x < width:
-                    # Pixel darker than threshold = black = index 1 (bit set)
                     if pixels[x, y] < threshold:
                         byte |= 1 << (7 - bit)
             pixel_data.append(byte)
 
     data = palette + pixel_data
 
-    # Generate C file
     var_name = Path(output_path).stem
     total_bytes = len(data)
 
@@ -56,7 +60,6 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
     lines.append("")
     lines.append(f"static LV_ATTRIBUTE_MEM_ALIGN const uint8_t {var_name}_map[] = {{")
 
-    # Write data in rows of 12 bytes
     for i in range(0, total_bytes, 12):
         chunk = data[i : i + 12]
         hex_vals = ", ".join(f"0x{b:02x}" for b in chunk)
@@ -79,13 +82,15 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
         f.write("\n".join(lines))
 
     print(f"Written to {output_path}")
-    print(f"  {total_bytes} bytes ({len(palette)} palette + {len(pixel_data)} pixels)")
-    print(f"  Format: LV_IMG_CF_INDEXED_1BIT")
+    print(f"  {total_bytes} bytes, {width}x{height} pixels")
+    print(f"  Format: LV_IMG_CF_INDEXED_1BIT (pre-rotated for nice!view)")
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(f"Usage: {sys.argv[0]} <input_image> [output.c] [threshold 0-255]")
+        print(f"  Input should be portrait (68x144 or similar)")
+        print(f"  Output will be rotated 90° CW for the nice!view display")
         print(f"  threshold: pixels darker than this become black (default: 128)")
         sys.exit(1)
 
