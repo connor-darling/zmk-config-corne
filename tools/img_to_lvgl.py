@@ -19,6 +19,21 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
     img = Image.open(input_path).convert("L")  # Convert to grayscale
     print(f"Original image size: {img.size[0]}x{img.size[1]}")
 
+    # Scale to fit available portrait space (68 wide x 92 tall)
+    max_w, max_h = 68, 92
+    orig_w, orig_h = img.size
+    scale = min(max_w / orig_w, max_h / orig_h)
+    new_w, new_h = int(orig_w * scale), int(orig_h * scale)
+    img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+
+    # Center on a 68x92 canvas
+    canvas = Image.new("L", (max_w, max_h), 255)  # white background
+    paste_x = (max_w - new_w) // 2
+    paste_y = (max_h - new_h) // 2
+    canvas.paste(img, (paste_x, paste_y))
+    img = canvas
+    print(f"Scaled to {new_w}x{new_h}, padded to {max_w}x{max_h}")
+
     # Rotate 90° CW for landscape display (portrait → landscape)
     img = img.transpose(Image.Transpose.ROTATE_270)
     width, height = img.size
