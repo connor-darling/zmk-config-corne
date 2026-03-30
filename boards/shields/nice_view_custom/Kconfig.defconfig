@@ -4,7 +4,25 @@ choice ZMK_DISPLAY_STATUS_SCREEN
     default ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
 endchoice
 
+# Sharp Memory LCD driver
+config LS0XX
+    default y
+
+# Monochrome display settings
+config LV_Z_BITS_PER_PIXEL
+    default 1
+
+config LV_Z_VDB_SIZE
+    default 100
+
 config LV_Z_MEM_POOL_SIZE
     default 4096
+
+# LVGL widgets we use
+config LV_USE_LABEL
+    default y
+
+config LV_USE_IMG
+    default y
 
 endif
