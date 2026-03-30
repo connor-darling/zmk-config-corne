@@ -17,6 +17,10 @@ static struct zmk_widget_ble_status ble_status_widget;
 #endif
 
 lv_obj_t *zmk_display_status_screen() {
+    lv_disp_t *disp = lv_disp_get_default();
+    disp->driver->sw_rotate = 1;
+    lv_disp_set_rotation(disp, LV_DISP_ROT_90);
+
     lv_obj_t *screen = lv_obj_create(NULL);
 
 #if !IS_ENABLED(CONFIG_ZMK_SPLIT) || IS_ENABLED(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
