@@ -1,7 +1,8 @@
 if SHIELD_NICE_VIEW_CUSTOM
 
-config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
-    default y
+choice ZMK_DISPLAY_STATUS_SCREEN
+    default ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+endchoice
 
 config LV_Z_MEM_POOL_SIZE
     default 4096
