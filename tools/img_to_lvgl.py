@@ -63,7 +63,7 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
 
     data = palette + pixel_data
 
-    var_name = Path(output_path).stem
+    var_name = "art_image"
     total_bytes = len(data)
 
     lines = []
