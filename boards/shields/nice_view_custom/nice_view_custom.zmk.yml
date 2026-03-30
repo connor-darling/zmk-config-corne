@@ -1,0 +1,9 @@
+file_format: "2"
+id: nice_view_custom
+name: nice!view Custom
+type: shield
+url: https://nicekeyboards.com/nice-view
+requires:
+  - nice_view_adapter
+features:
+  - display

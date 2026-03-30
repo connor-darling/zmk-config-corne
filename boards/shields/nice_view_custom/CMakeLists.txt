@@ -1,0 +1,7 @@
+if(CONFIG_SHIELD_NICE_VIEW_CUSTOM)
+    target_sources(app PRIVATE custom_status_screen.c)
+    target_sources(app PRIVATE widgets/battery_status.c)
+    target_sources(app PRIVATE widgets/ble_status.c)
+    target_sources(app PRIVATE widgets/art.c)
+    target_sources(app PRIVATE widgets/art_image.c)
+endif()

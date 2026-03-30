@@ -1,0 +1,9 @@
+if SHIELD_NICE_VIEW_CUSTOM
+
+config ZMK_DISPLAY_STATUS_SCREEN_CUSTOM
+    default y
+
+config LV_Z_MEM_POOL_SIZE
+    default 4096
+
+endif
