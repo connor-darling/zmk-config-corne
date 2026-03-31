@@ -16,17 +16,17 @@ except ImportError:
 
 
 def convert(input_path: str, output_path: str, threshold: int = 128):
-    img = Image.open(input_path).convert("L")  # Convert to grayscale
+    img = Image.open(input_path).convert("L")  # convert to grayscale
     print(f"Original image size: {img.size[0]}x{img.size[1]}")
 
-    # Scale to fit available portrait space (68 wide x 92 tall)
+    # scale to fit available portrait space (68 wide x 92 tall)
     max_w, max_h = 68, 92
     orig_w, orig_h = img.size
     scale = min(max_w / orig_w, max_h / orig_h)
     new_w, new_h = int(orig_w * scale), int(orig_h * scale)
     img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
 
-    # Center on a 68x92 canvas
+    # center on a 68x92 canvas
     canvas = Image.new("L", (max_w, max_h), 255)  # white background
     paste_x = (max_w - new_w) // 2
     paste_y = (max_h - new_h) // 2
@@ -34,17 +34,17 @@ def convert(input_path: str, output_path: str, threshold: int = 128):
     img = canvas
     print(f"Scaled to {new_w}x{new_h}, padded to {max_w}x{max_h}")
 
-    # Rotate 90° CW for landscape display (portrait → landscape)
+    # rotate 90 degree cw for landscape display (portraid -> landscape)
     img = img.transpose(Image.Transpose.ROTATE_270)
     width, height = img.size
     print(f"After rotation (90° CW): {width}x{height}")
 
     pixels = img.load()
 
-    # LVGL expects rows padded to full bytes
+    # lvgl expects rows padded to full bytes
     row_bytes = (width + 7) // 8
 
-    # Build palette: 2 entries, each is lv_color32_t (B, G, R, A) = 4 bytes
+    # build palette: 2 entries, each is lv_color32_t (B, G, R, A) = 4 bytes
     palette = [
         0xFF, 0xFF, 0xFF, 0xFF,  # Index 0 = white
         0x00, 0x00, 0x00, 0xFF,  # Index 1 = black
